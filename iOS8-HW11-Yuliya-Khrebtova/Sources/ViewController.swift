@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     // MARK: - Outlets
 
     private lazy var background: UIImageView = {
-        let image = UIImage(named: "background")
+        let image = UIImage(named: "back")
         let background = UIImageView(image: image)
-        background.contentMode = .scaleAspectFit
+        background.contentMode = .scaleAspectFill
         background.translatesAutoresizingMaskIntoConstraints = false
         return background
     }()
@@ -146,6 +146,17 @@ class ViewController: UIViewController {
         return twitterButton
     }()
 
+    private lazy var socialMediaButtons: UIStackView = {
+        let socialMediaButtons = UIStackView()
+        socialMediaButtons.axis = .horizontal
+        socialMediaButtons.alignment = .center
+        socialMediaButtons.spacing = 20
+        socialMediaButtons.addArrangedSubview(facebookButton)
+        socialMediaButtons.addArrangedSubview(twitterButton)
+        socialMediaButtons.translatesAutoresizingMaskIntoConstraints = false
+        return socialMediaButtons
+    }()
+
     private lazy var dontHaveAccountLabel: UILabel = {
         let dontHaveAccountLabel = UILabel()
         dontHaveAccountLabel.text = "Don't have account?"
@@ -163,6 +174,17 @@ class ViewController: UIViewController {
         signUpButton.setTitleColor(UIColor.systemIndigo, for: .normal)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         return signUpButton
+    }()
+
+    private lazy var signUpStack: UIStackView = {
+        let signUpStack = UIStackView()
+        signUpStack.axis = .horizontal
+        signUpStack.alignment = .center
+        signUpStack.spacing = 20
+        signUpStack.addArrangedSubview(dontHaveAccountLabel)
+        signUpStack.addArrangedSubview(signUpButton)
+        signUpStack.translatesAutoresizingMaskIntoConstraints = false
+        return signUpStack
     }()
 
     // MARK: - Lifecycle
@@ -186,10 +208,8 @@ class ViewController: UIViewController {
         view.addSubview(connectLabel)
         view.addSubview(leftLine)
         view.addSubview(rightLine)
-        view.addSubview(facebookButton)
-        view.addSubview(twitterButton)
-        view.addSubview(dontHaveAccountLabel)
-        view.addSubview(signUpButton)
+        view.addSubview(socialMediaButtons)
+        view.addSubview(signUpStack)
     }
 
     private func setupLayout() {
@@ -200,7 +220,7 @@ class ViewController: UIViewController {
 
         background.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.bottom.equalTo(view).offset(-40)
+            make.top.equalTo(view)
         }
 
         loginInput.snp.makeConstraints { make in
@@ -251,26 +271,15 @@ class ViewController: UIViewController {
             make.bottom.equalTo(facebookButton.snp.top).offset(-38)
         }
 
-        facebookButton.snp.makeConstraints { make in
-            make.left.equalTo(view).offset(150)
+        socialMediaButtons.snp.makeConstraints { make in
             make.height.equalTo(50)
+            make.centerX.equalTo(view)
             make.bottom.equalTo(dontHaveAccountLabel.snp.top).offset(-30)
         }
 
-        twitterButton.snp.makeConstraints { make in
-            make.left.equalTo(facebookButton.snp.right).offset(20)
-            make.height.equalTo(50)
-            make.bottom.equalTo(dontHaveAccountLabel.snp.top).offset(-30)
-        }
-
-        dontHaveAccountLabel.snp.makeConstraints { make in
+        signUpStack.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
             make.bottom.equalTo(view).offset(-40)
-            make.left.equalTo(view).offset(90)
-        }
-
-        signUpButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view).offset(-34)
-            make.left.equalTo(dontHaveAccountLabel.snp.right).offset(20)
         }
     }
 }
